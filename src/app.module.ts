@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { User } from './modules/user/user.entity';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { UserModule } from './modules/user/user.module';
         password: configService.get<string>('DATABASE_PASSWORD'),
         database: configService.get<string>('DATABASE_NAME'),
         entities: [User],
-        synchronize: false,
+        synchronize: true,
         autoLoadEntities: true,
         options: { encrypt: false },
         //*Migrations Settings
@@ -32,6 +33,7 @@ import { UserModule } from './modules/user/user.module';
         migrationsRun: true,
         port: 3306,
       }),
+      inject: [ConfigService],
     }),
     UserModule,
     AuthModule,
