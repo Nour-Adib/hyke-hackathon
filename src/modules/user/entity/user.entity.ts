@@ -1,14 +1,10 @@
 import { UserType } from '../../../common/constants/user-type.enum';
 import { BaseEntity } from '../../../common/entity/base.entity';
 import { EncryptionService } from '../../../common/services/encryption.service';
-import { Entity, Column, BeforeInsert } from 'typeorm';
+import { Entity, Column, BeforeInsert, OneToMany } from 'typeorm';
 import { PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from '../../product/entity/product.entity';
 
-/**
- * User Entity Class is the class that represents the User table in the database
- * This is how we interact with the database table in the application
- * No need for SQL queries
- */
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -43,6 +39,9 @@ export class User extends BaseEntity {
 
   @Column()
   numberOfRatings: number;
+
+  @OneToMany(() => Product, (product) => product.manufacturer)
+  products: Product[];
 
   //This is a hook that will be executed before the user is inserted in the database
   @BeforeInsert()
