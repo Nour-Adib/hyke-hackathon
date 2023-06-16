@@ -5,15 +5,15 @@ import {
   Request,
   Post,
   Res,
-  UploadedFile,
-  UseInterceptors,
+  UseGuards,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
-import { SignUpUserDto } from '../user/signupuser.dto';
-import { User } from '../user/user.entity';
+import { SignUpUserDto } from '../user/dto/signupuser.dto';
+import { User } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { log } from 'console';
 
 @Controller('auth')
 export class AuthController {
@@ -77,5 +77,11 @@ export class AuthController {
         });
       }
     });
+  }
+
+  @UseGuards(LocalAuthGuard)
+  @Post('login')
+  async loginUser(@Request() req) {
+    return this.authService.login(req.user);
   }
 }

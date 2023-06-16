@@ -2,6 +2,7 @@ import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from '../auth.service';
+import { log } from 'console';
 
 /**
  * Local strategy for passport
@@ -19,11 +20,13 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
    * @returns the user details or throws an UnauthorizedException if the user is not found or has an invalid password
    */
   async validate(email: string, password: string): Promise<any> {
-    const user = await this.authService.validateUser(email, password);
+    return this.authService.validateUser(email, password).then((user) => {
+      if (!user) {
+        console.log('User not found');
 
-    if (!user) {
-      throw new UnauthorizedException();
-    }
-    return user;
+        throw new UnauthorizedException();
+      }
+      return user;
+    });
   }
 }

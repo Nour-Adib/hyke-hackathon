@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { EncryptionService } from 'src/common/services/encryption.service';
 import { JwtService } from '@nestjs/jwt';
-import { async } from 'rxjs';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +18,7 @@ export class AuthService {
    * @returns the user details (excluding password) or null if the user is not found or has an invalid password
    */
   async validateUser(email: string, pass: string): Promise<any> {
-    this.usersService.getLoginUser(email).then(async (user) => {
+    return this.usersService.getLoginUser(email).then(async (user) => {
       if (!user) {
         throw new BadRequestException('User not found');
       }
@@ -30,6 +30,7 @@ export class AuthService {
 
       if (user && passwordsMatch) {
         const { password, ...result } = user;
+
         return result;
       }
 

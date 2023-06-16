@@ -1,7 +1,7 @@
 import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
-import { User } from './src/modules/user/user.entity';
+import { User } from './src/modules/user/entity/user.entity';
 config();
 
 const configService = new ConfigService();
@@ -14,5 +14,5 @@ export default new DataSource({
   database: configService.get('DATABASE_NAME'),
   entities: [User],
   migrations: ['./migrations/*{.ts,.js}'],
-  port: 33060,
+  port: 3306,
 });

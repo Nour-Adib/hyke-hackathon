@@ -1,7 +1,8 @@
-import { UserType } from '../../common/constants/user-type.enum';
-import { BaseEntity } from '../../common/entity/base.entity';
-import { EncryptionService } from '../../common/services/encryption.service';
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert } from 'typeorm';
+import { UserType } from '../../../common/constants/user-type.enum';
+import { BaseEntity } from '../../../common/entity/base.entity';
+import { EncryptionService } from '../../../common/services/encryption.service';
+import { Entity, Column, BeforeInsert } from 'typeorm';
+import { PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * User Entity Class is the class that represents the User table in the database

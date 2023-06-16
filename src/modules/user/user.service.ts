@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { User } from './user.entity';
-import { SignUpUserDto } from './signupuser.dto';
+import { User } from './entity/user.entity';
+import { SignUpUserDto } from './dto/signupuser.dto';
 import { UserType } from 'src/common/constants/user-type.enum';
 
 @Injectable()
@@ -30,8 +30,8 @@ export class UserService {
     newUser.address = user.address;
     newUser.city = user.city;
     newUser.country = user.country;
-    newUser.rating = this.generateRandomNumber(1, 5);
-    newUser.numberOfRatings = this.generateRandomNumber(100, 500);
+    newUser.rating = this.generateRandomNumber(3, 5);
+    newUser.numberOfRatings = this.generateRandomNumber(100, 2000);
 
     newUser.type = UserType.Manufacturer;
 
@@ -48,7 +48,7 @@ export class UserService {
     newUser.city = user.city;
     newUser.country = user.country;
     newUser.rating = this.generateRandomNumber(3, 5);
-    newUser.numberOfRatings = this.generateRandomNumber(100, 500);
+    newUser.numberOfRatings = this.generateRandomNumber(100, 2000);
 
     newUser.type = UserType.Retailer;
 
@@ -58,7 +58,7 @@ export class UserService {
   getLoginUser(email: string): Promise<User> {
     return this.usersRepository
       .createQueryBuilder()
-      .select(['id', 'email', 'password', 'role', 'subscriptionPlan'])
+      .select(['id', 'email', 'password', 'type'])
       .where('email = :email', { email: email })
       .getRawOne();
   }
