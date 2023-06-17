@@ -40,6 +40,15 @@ export class User extends BaseEntity {
   @Column()
   numberOfRatings: number;
 
+  @Column({ default: false })
+  hasStripAccount: boolean = false;
+
+  @Column({ default: '' })
+  stripeCustomerId: string = '';
+
+  @Column({ default: '' })
+  apiKey: string = '';
+
   @OneToMany(() => Product, (product) => product.manufacturer)
   products: Product[];
 
